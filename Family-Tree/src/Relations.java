@@ -3,12 +3,11 @@
  */
 public class Relations {
     enum TreeRelationsType {
-        Супруг, Родитель, Ребенок
+        SPOUSE, PARENT, CHILD
     }
 
     enum RelationsType {
-        мама, папа, сын, дочь, брат, сестра, дедушка, бабушка, муж, жена, тетя, дядя, внук, внучка, двоюродная_сестра,
-        двоюродный_брат
+        FATHER, MOTHER, BROTHER, SISTER, SON, DAUGHTER, COUSIN, GRANDMOTHER, GRANDFATHER, GRANDSON, GRANDDAUGHTER, AUNT, UNCLE, HUSBAND, WIFE
     }
 
     private Person person1;
