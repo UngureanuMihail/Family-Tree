@@ -1,14 +1,12 @@
-import com.sun.source.tree.Tree;
-
 /*
 Класс для работы с отношениями между членами семьи
  */
-public class Relations {
-    enum TreeRelationsType {
+public class Relation {
+    enum TreeRelationType {
         spouse, parent, child
     }
 
-    enum RelationsType {
+    enum RelationType {
         father, mother, brother, sister, son, daughter, cousin,
         grandmother, grandfather, grandson, granddaughter, aunt, uncle,
         husband, wife
@@ -16,9 +14,9 @@ public class Relations {
 
     private Person person1;
     private Person person2;
-    private TreeRelationsType type;
+    private TreeRelationType type;
 
-    Relations(TreeRelationsType type, Person person1, Person person2) {
+    Relation(TreeRelationType type, Person person1, TreeRelationType type2, Person person2) {
         this.person1 = person1;
         this.person2 = person2;
         this.type = type;
@@ -40,11 +38,11 @@ public class Relations {
         this.person2 = person2;
     }
 
-    public TreeRelationsType getType(){
+    public TreeRelationType getType(){
         return type;
     }
 
-    public void setType(TreeRelationsType type) {
+    public void setType(TreeRelationType type) {
         this.type = type;
     }
 }
