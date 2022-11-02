@@ -1,7 +1,10 @@
 /*
-Класс для работы с отношениями между членами семьи
+Class for working with relations between the members
  */
 public class Relation {
+    public void add(Relation relation) {
+    }
+
     enum TreeRelationType {
         spouse, parent, child
     }
@@ -16,7 +19,7 @@ public class Relation {
     private Person person2;
     private TreeRelationType type;
 
-    Relation(TreeRelationType type, Person person1, TreeRelationType type2, Person person2) {
+    Relation(TreeRelationType type, Person person1, Person person2) {
         this.person1 = person1;
         this.person2 = person2;
         this.type = type;
@@ -38,7 +41,7 @@ public class Relation {
         this.person2 = person2;
     }
 
-    public TreeRelationType getType(){
+    public TreeRelationType getType() {
         return type;
     }
 
