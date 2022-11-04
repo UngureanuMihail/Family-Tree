@@ -189,4 +189,66 @@ public class FamilyTree {
         }
         return daughters;
     }
+
+    private List<Person> fetchGrandparents(String name) {
+        List<Person> grandparents = new ArrayList<>();
+        List<Person> parents = fetchParents(name);
+        for (Person person : parents) {
+            grandparents.addAll(fetchParents(person.getName()));
+        }
+        return grandparents;
+    }
+
+    private Person fetchGrandFather(String name) {
+        Person granFather = null;
+        List<Person> grandParents = fetchGrandparents(name);
+        for (Person person : grandParents) {
+            if (Person.Gender.male.equals(person.getGender())) {
+                granFather = person;
+            }
+        }
+        return granFather;
+    }
+
+    private Person fetchGrandMother(String name) {
+        Person fetchGrandMother = null;
+        List<Person> grandParents = fetchGrandparents(name);
+        for (Person person : grandParents) {
+            if (Person.Gender.male.equals(person.getGender())) {
+                fetchGrandMother = person;
+            }
+        }
+        return fetchGrandMother;
+    }
+
+    private List<Person> fetchGrandChildren(String name) {
+        List<Person> children = fetchChildren(name);
+        List<Person> grandChildren = new ArrayList<>();
+        for (Person person : children) {
+            grandChildren.addAll(fetchChildren(person.getName()));
+        }
+        return grandChildren;
+    }
+
+    private List<Person> fetchGrandSons(String name){
+        List <Person> grandSons = new ArrayList<>();
+        List<Person> grandChildren = fetchGrandChildren(name);
+        for( Person person : grandChildren){
+            if(Person.Gender.male.equals(person.getGender())){
+                grandSons.add(person);
+            }
+        }
+        return grandSons;
+    }
+
+    private List<Person> fetchGrandDaughters (String name){
+        List<Person> grandDaughters = new ArrayList<>();
+        List<Person> grandChildren = fetchGrandChildren(name);
+        for (Person person : grandChildren){
+            if(Person.Gender.female.equals(person.getGender())){
+                grandDaughters.add(person);
+            }
+        }
+        return grandDaughters;
+    }
 }
