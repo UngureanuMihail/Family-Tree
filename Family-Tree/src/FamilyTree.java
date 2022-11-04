@@ -1,8 +1,6 @@
 import com.sun.source.tree.Tree;
 
-import java.util.HashMap;
-import java.util.InputMismatchException;
-import java.util.Map;
+import java.util.*;
 
 public class FamilyTree {
     private Person root;
@@ -53,12 +51,16 @@ public class FamilyTree {
             addRelation(relationType1, person1, relationType2, person2);
             if (Relation.TreeRelationType.child.equals(relationType1)) {
                 for (Relation relation : person1.getRelations()) {
-                    person1 = relation.getPerson2();
-                    break;
+                    if (Relation.TreeRelationType.spouse.equals(relation.getType())) {
+                        person1 = relation.getPerson2();
+                        break;
+                    }
                 }
+                addRelation(relationType1, person1, relationType2, person2);
             }
         }
     }
+
 
     private Person findPerson(Person cur, String name) {
         this.visited.put(cur.getName(), Boolean.TRUE);
@@ -90,8 +92,101 @@ public class FamilyTree {
         person1.addRelation(relation2);
     }
 
+    private List<Person> fetchChildren(String name) {
+        List<Person> children = new ArrayList<>();
+        Person person = findPerson(this.root, name);
+        for (Relation relation : person.getRelations()) {
+            if (Relation.TreeRelationType.child.equals(relation.getType())) {
+                children.add(relation.getPerson2());
+            }
+        }
+        return children;
+    }
 
+    private List<Person> fetchParents(String name) {
+        List<Person> parents = new ArrayList<>();
+        Person person = findPerson(this.root, name);
+        for (Relation relation : person.getRelations()) {
+            if (Relation.TreeRelationType.child.equals(relation.getType())) {
+                parents.add(relation.getPerson2());
+            }
+        }
+        return parents;
+    }
 
+    private Person fetchFather(String name) {
+        Person father = null;
+        List<Person> parents = fetchParents(name);
+        for (Person person : parents) {
+            if (Person.Gender.male.equals(person.getGender()))
+                father = person;
+        }
+        return father;
+    }
 
+    private Person fetchMother(String name) {
+        Person mother = null;
+        List<Person> parents = fetchParents(name);
+        for (Person person : parents) {
+            if (Person.Gender.male.equals(person.getGender()))
+                mother = person;
+        }
+        return mother;
+    }
 
+    private List<Person> fetchSiblings(String name) {
+        List<Person> siblings = new ArrayList<>();
+        Person father = fetchFather(name);
+        List<Person> children = fetchChildren(father.getName());
+        for (Person person : children) {
+            if (!person.getName().equals(name)) {
+                siblings.add(person);
+            }
+        }
+        return siblings;
+    }
+
+    private List<Person> fetchBrothers(String name) {
+        List<Person> brothers = new ArrayList<>();
+        List<Person> siblings = fetchSiblings(name);
+        for (Person person : siblings) {
+            if (Person.Gender.male.equals(person.getGender())) {
+                brothers.add(person);
+            }
+        }
+        return brothers;
+    }
+
+    private List<Person> fetchSisters(String name) {
+        List<Person> sisters = new ArrayList<>();
+        List<Person> siblings = fetchSiblings(name);
+        for (Person person : siblings) {
+            if (Person.Gender.female.equals(person.getGender())) {
+                sisters.add(person);
+            }
+        }
+        return sisters;
+    }
+
+    private List<Person> fetchSons(String name) {
+        List<Person> sons = new ArrayList<>();
+        List<Person> children = fetchChildren(name);
+        for (Person person : children) {
+            if (Person.Gender.male.equals(person.getGender())) {
+                sons.add(person);
+            }
+        }
+        return sons;
+    }
+
+    private List<Person> daughters(String name) {
+        List<Person> daughters = new ArrayList<>();
+        List<Person> children = fetchChildren(name);
+        for (Person person : children) {
+            if (Person.Gender.female.equals(person.getGender())) {
+                daughters.add(person);
+            }
+        }
+        return daughters;
+    }
 }
