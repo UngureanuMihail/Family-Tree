@@ -1,5 +1,3 @@
-import com.sun.source.tree.Tree;
-
 import java.util.*;
 
 public class FamilyTree {
@@ -91,6 +89,17 @@ public class FamilyTree {
         Relation relation2 = new Relation(type2, person2, person1);
         person1.addRelation(relation2);
     }
+    Person fetchSpouse(String name) {
+        Person spouse = null;
+        Person person = findPerson(this.root, name);
+        for (Relation relation : person.getRelations()) {
+            if (Relation.TreeRelationType.spouse.equals(relation.getType())) {
+                spouse = relation.getPerson2();
+                break;
+            }
+        }
+        return spouse;
+    }
 
     private List<Person> fetchChildren(String name) {
         List<Person> children = new ArrayList<>();
@@ -114,7 +123,7 @@ public class FamilyTree {
         return parents;
     }
 
-    private Person fetchFather(String name) {
+    Person fetchFather(String name) {
         Person father = null;
         List<Person> parents = fetchParents(name);
         for (Person person : parents) {
@@ -124,7 +133,7 @@ public class FamilyTree {
         return father;
     }
 
-    private Person fetchMother(String name) {
+    Person fetchMother(String name) {
         Person mother = null;
         List<Person> parents = fetchParents(name);
         for (Person person : parents) {
@@ -146,7 +155,7 @@ public class FamilyTree {
         return siblings;
     }
 
-    private List<Person> fetchBrothers(String name) {
+    List<Person> fetchBrothers(String name) {
         List<Person> brothers = new ArrayList<>();
         List<Person> siblings = fetchSiblings(name);
         for (Person person : siblings) {
@@ -157,7 +166,7 @@ public class FamilyTree {
         return brothers;
     }
 
-    private List<Person> fetchSisters(String name) {
+    List<Person> fetchSisters(String name) {
         List<Person> sisters = new ArrayList<>();
         List<Person> siblings = fetchSiblings(name);
         for (Person person : siblings) {
@@ -168,7 +177,7 @@ public class FamilyTree {
         return sisters;
     }
 
-    private List<Person> fetchSons(String name) {
+    List<Person> fetchSons(String name) {
         List<Person> sons = new ArrayList<>();
         List<Person> children = fetchChildren(name);
         for (Person person : children) {
@@ -179,7 +188,7 @@ public class FamilyTree {
         return sons;
     }
 
-    private List<Person> daughters(String name) {
+    List<Person> fetchDaughters(String name) {
         List<Person> daughters = new ArrayList<>();
         List<Person> children = fetchChildren(name);
         for (Person person : children) {
@@ -199,7 +208,7 @@ public class FamilyTree {
         return grandparents;
     }
 
-    private Person fetchGrandFather(String name) {
+    Person fetchGrandFather(String name) {
         Person granFather = null;
         List<Person> grandParents = fetchGrandparents(name);
         for (Person person : grandParents) {
@@ -210,7 +219,7 @@ public class FamilyTree {
         return granFather;
     }
 
-    private Person fetchGrandMother(String name) {
+    Person fetchGrandMother(String name) {
         Person fetchGrandMother = null;
         List<Person> grandParents = fetchGrandparents(name);
         for (Person person : grandParents) {
@@ -230,7 +239,7 @@ public class FamilyTree {
         return grandChildren;
     }
 
-    private List<Person> fetchGrandSons(String name){
+    List<Person> fetchGrandSons(String name){
         List <Person> grandSons = new ArrayList<>();
         List<Person> grandChildren = fetchGrandChildren(name);
         for( Person person : grandChildren){
@@ -241,7 +250,7 @@ public class FamilyTree {
         return grandSons;
     }
 
-    private List<Person> fetchGrandDaughters (String name){
+    List<Person> fetchGrandDaughters(String name){
         List<Person> grandDaughters = new ArrayList<>();
         List<Person> grandChildren = fetchGrandChildren(name);
         for (Person person : grandChildren){
